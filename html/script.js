@@ -1203,8 +1203,8 @@ function initPage() {
             geomUseEGM = state;
             if (geomUseEGM) {
 jQuery('#selected_altitude_geom1')
-                jQuery('#selected_altitude_geom1_title').updateText('EGM96 altitude');
-                jQuery('#selected_altitude_geom2_title').updateText('Geom. EGM96');
+                jQuery('#selected_altitude_geom1_title').updateText('海拔高度');
+                jQuery('#selected_altitude_geom2_title').updateText('海拔高度');
                 let egm = loadEGM();
                 if (egm) {
                     egm.addEventListener('load', function() {
@@ -1214,8 +1214,8 @@ jQuery('#selected_altitude_geom1')
                     return;
                 }
             } else {
-                jQuery('#selected_altitude_geom1_title').updateText('WGS84 altitude');
-                jQuery('#selected_altitude_geom2_title').updateText('Geom. WGS84');
+                jQuery('#selected_altitude_geom1_title').updateText('海拔高度');
+                jQuery('#selected_altitude_geom2_title').updateText('海拔高度');
             }
             if (loadFinished) {
                 remakeTrails();
@@ -1308,8 +1308,8 @@ jQuery('#selected_altitude_geom1')
     });
 
     new Toggle({
-        key: "调试航迹",
-        display: "Debug Tracks",
+        key: "debugTracks",
+        display: "调试航迹",
         container: "#settingsRight",
         init: false,
         setState: function(state) {
@@ -1540,7 +1540,7 @@ jQuery('#selected_altitude_geom1')
 
     if (onMobile) {
         enableMouseover = false;
-        (typeof hideById != 'undefined') && (hideById) && (hideById('tracking_leaderboard_container'));
+        (hideById) && (hideById('tracking_leaderboard_container'));
     }
 
     new Toggle({
@@ -1842,7 +1842,7 @@ function setIntervalTimers() {
         trailReaper(now);
     }
     if (enable_pf_data && !pTracks && !globeIndex) {
-        jQuery('#pf_info_container').removeClass('hidden');
+        jQuery('#pf_info_contianer').removeClass('hidden');
         timers.pf_data = window.setInterval(fetchPfData, RefreshInterval*10.314);
         fetchPfData();
     }
@@ -3284,7 +3284,7 @@ function refreshSelected() {
         jQuery('#selected_nic_baro').updateText("n/a");
     } else {
         if (selected.nic_baro == 1) {
-           jQuery('#selected_nic_baro').updateText("交叉检查");
+            jQuery('#selected_nic_baro').updateText("交叉检查");
         } else {
             jQuery('#selected_nic_baro').updateText("没有交叉检查");
         }
@@ -3378,22 +3378,14 @@ function refreshHighlighted() {
         return;
 
     let mapSize = OLMap.getSize();
-    let infoBoxLeft = markerPosition[0];
-    let infoBoxTop = markerPosition[1];
-    if ((infoBoxLeft + 20 + infoBox.width()) < mapSize[0])
-        infoBoxLeft += 20;
-    else if ((infoBoxLeft - 20 - infoBox.width()) > 0)
-        infoBoxLeft -= (20 + infoBox.width());
+    if (markerPosition[0] + 200 < mapSize[0])
+        infoBox.css("left", markerPosition[0] + 20);
     else
-        infoBoxLeft = 0;
-    if ((infoBoxTop + 20 + infoBox.height()) < mapSize[1])
-        infoBoxTop += 20;
-    else if (infoBoxTop - (20 + infoBox.height()) > 0)
-        infoBoxTop -= (20 + infoBox.height());
+        infoBox.css("left", markerPosition[0] - 200);
+    if (markerPosition[1] + 250 < mapSize[1])
+        infoBox.css("top", markerPosition[1] + 50);
     else
-        infoBoxTop = 0;
-    infoBox.css("left", infoBoxLeft);
-    infoBox.css("top", infoBoxTop);
+        infoBox.css("top", markerPosition[1] - 250);
 
     jQuery('#highlighted_callsign').text(highlighted.name);
 
@@ -4902,8 +4894,8 @@ Filter.prototype.init = function() {
         `<td><form id="${this.id}">`
         + '<div class="infoBlockTitleText">按照'+ this.name +'搜索:</div>'
         + `<input id="${this.id}_input" name="${this.id}_name" type="text" class="searchInput" maxlength="1024">`
-        + '<button class="formButton" type="submit">Filter</button>'
-        + `<button class="formButton" id="${this.id}_reset">Reset</button>`
+        + '<button class="formButton" type="submit">搜索</button>'
+        + `<button class="formButton" id="${this.id}_reset">重置</button>`
         + '</form></td>'
     ;
     this.input = jQuery(this.sid + '_input');
