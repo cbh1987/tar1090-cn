@@ -1,6 +1,7 @@
 #!/bin/bash
 
 ipath=/usr/local/share/adsb-wiki/readsb-install
+mkdir -p $ipath
 
 cd "$ipath"
 
