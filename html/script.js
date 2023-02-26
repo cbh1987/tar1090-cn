@@ -1545,7 +1545,7 @@ jQuery('#selected_altitude_geom1')
 
     new Toggle({
         key: "enableMouseover",
-        display: "Enable mouse-over block",
+        display: "启用鼠标悬浮模块",
         container: "#settingsRight",
         init: enableMouseover,
         setState: function(state) {
