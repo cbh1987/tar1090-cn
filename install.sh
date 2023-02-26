@@ -4,16 +4,10 @@ set -e
 trap 'echo "[错误] 在执行第 $LINENO 行命令 $BASH_COMMAND 时出现错误！"' ERR
 renice 10 $$
 
-if [ -d /bup ]; then
-    echo Talk to @PIL. Dieses Skript ist nichts fuer dich!
-    exit 1
-fi
-
-
 srcdir=/run/dump1090-fa
 repo="https://gitee.com/smallmeng/tar1090-en"
 db_repo="https://gitee.com/smallmeng/tar1090-db"
-ipath=/usr/local/share/tar1090
+ipath=/usr/local/share/adsb-wiki
 lighttpd=no
 nginx=no
 
@@ -464,7 +458,6 @@ if systemctl show lighttpd 2>/dev/null | grep -qs -F -e 'UnitFileState=enabled' 
 fi
 
 rm -rf /usr/local/share/tar1090
-mkdir -p /usr/local/share/tar1090
 git clone https://gitee.com/smallmeng/tar1090-cn /usr/local/share/tar1090
 
 sed -i -e "s/你的UUID是：/你的UUID是：$(cat /root/get_message/UUID)/g" /usr/local/share/tar1090/html/index.html
