@@ -3520,7 +3520,7 @@ function refreshFeatures() {
     cols.aircraft_type = {
         sort: function () { sortBy('type', compareAlpha, function(x) { return x.icaoType; }); },
         value: function(plane) { return (plane.icaoType != null ? plane.icaoType : ""); },
-        text: 'Type' };
+        text: '机型' };
     cols.squawk = {
         text: '应答机',
         sort: function () { sortBy('squawk', compareAlpha, function(x) { return x.squawk; }); },
