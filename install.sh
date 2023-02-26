@@ -11,7 +11,7 @@ fi
 
 
 srcdir=/run/dump1090-fa
-repo="https://gitee.com/smallmeng/tar1090-cn"
+repo="https://gitee.com/smallmeng/tar1090-en"
 db_repo="https://gitee.com/smallmeng/tar1090-db"
 ipath=/usr/local/share/tar1090
 lighttpd=no
