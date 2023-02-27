@@ -95,7 +95,7 @@ function format_altitude_brief(alt, vr, displayUnits, withUnits) {
 	if (alt == null){
 		return NBSP + '?' + NBSP;
 	} else if (alt === "ground"){
-		return "ground";
+		return "地面";
 	}
 
 	alt_text = Math.round(convert_altitude(alt, displayUnits)).toString();
