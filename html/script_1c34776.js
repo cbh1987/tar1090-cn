@@ -1204,7 +1204,7 @@ function initPage() {
             if (geomUseEGM) {
 jQuery('#selected_altitude_geom1')
                 jQuery('#selected_altitude_geom1_title').updateText('EGM96 高度');
-                jQuery('#selected_altitude_geom2_title').updateText('Geom. EGM96');
+                jQuery('#selected_altitude_geom2_title').updateText('EGM96 高度');
                 let egm = loadEGM();
                 if (egm) {
                     egm.addEventListener('load', function() {
@@ -1215,7 +1215,7 @@ jQuery('#selected_altitude_geom1')
                 }
             } else {
                 jQuery('#selected_altitude_geom1_title').updateText('WGS84 高度');
-                jQuery('#selected_altitude_geom2_title').updateText('Geom. WGS84');
+                jQuery('#selected_altitude_geom2_title').updateText('WGS84 高度');
             }
             if (loadFinished) {
                 remakeTrails();
