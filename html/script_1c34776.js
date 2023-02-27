@@ -1183,7 +1183,7 @@ function initPage() {
     });
     new Toggle({
         key: "labelsGeom",
-        display: "标签：气压高度（WGS84）",
+        display: "标签: 真实高度 (WGS84)",
         container: "#settingsLeft",
         init: labelsGeom,
         setState: function(state) {
@@ -1196,15 +1196,15 @@ function initPage() {
     });
     new Toggle({
         key: "geomUseEGM",
-        display: "气压高度: WGS84 -> EGM 转换（长负载）",
+        display: "真实高度: WGS84 -> EGM 转换 (长加载)",
         container: "#settingsLeft",
         init: geomUseEGM,
         setState: function(state) {
             geomUseEGM = state;
             if (geomUseEGM) {
 jQuery('#selected_altitude_geom1')
-                jQuery('#selected_altitude_geom1_title').updateText('海拔高度');
-                jQuery('#selected_altitude_geom2_title').updateText('海拔高度');
+                jQuery('#selected_altitude_geom1_title').updateText('EGM96 高度');
+                jQuery('#selected_altitude_geom2_title').updateText('Geom. EGM96');
                 let egm = loadEGM();
                 if (egm) {
                     egm.addEventListener('load', function() {
@@ -1214,8 +1214,8 @@ jQuery('#selected_altitude_geom1')
                     return;
                 }
             } else {
-                jQuery('#selected_altitude_geom1_title').updateText('海拔高度');
-                jQuery('#selected_altitude_geom2_title').updateText('海拔高度');
+                jQuery('#selected_altitude_geom1_title').updateText('WGS84 高度');
+                jQuery('#selected_altitude_geom2_title').updateText('Geom. WGS84');
             }
             if (loadFinished) {
                 remakeTrails();
@@ -1320,7 +1320,7 @@ jQuery('#selected_altitude_geom1')
 
     new Toggle({
         key: "debugAll",
-        display: "显示全部调试",
+        display: "调试所有航迹",
         container: "#settingsRight",
         init: false,
         setState: function(state) {
@@ -1358,7 +1358,7 @@ jQuery('#selected_altitude_geom1')
 
     new Toggle({
         key: "autoselect",
-        display: "自动选择飞机",
+        display: "自动选择航班",
         container: "#settingsRight",
         init: autoselect,
         setState: function(state) {
@@ -1388,7 +1388,7 @@ jQuery('#selected_altitude_geom1')
 
     new Toggle({
         key: "ColoredTrails",
-        display: "彩色航迹",
+        display: "彩色飞机航迹",
         container: "#settingsRight",
         init: true,
         setState: function(state) {
@@ -1540,12 +1540,12 @@ jQuery('#selected_altitude_geom1')
 
     if (onMobile) {
         enableMouseover = false;
-        (hideById) && (hideById('tracking_leaderboard_container'));
+        (typeof hideById != 'undefined') && (hideById) && (hideById('tracking_leaderboard_container'));
     }
 
     new Toggle({
         key: "enableMouseover",
-        display: "启用鼠标悬浮模块",
+        display: "启用鼠标悬停信息模块",
         container: "#settingsRight",
         init: enableMouseover,
         setState: function(state) {
@@ -1576,19 +1576,6 @@ jQuery('#selected_altitude_geom1')
     filterBlockedMLAT(false);
 
     TAR.altitudeChart.init();
-
-    if (adsbexchange) {
-        jQuery('#adsbexchange_header').show();
-        jQuery('#credits').show();
-        if (!onMobile) {
-            jQuery('#creditsSelected').show();
-        }
-        jQuery('#selected_infoblock').addClass('adsbx-selected-bg');
-        if (false && window.self != window.top) {
-            window.top.location.href = "https://www.adsbexchange.com/";
-            return;
-        }
-    }
 }
 
 function initLegend(colors) {
@@ -1842,7 +1829,7 @@ function setIntervalTimers() {
         trailReaper(now);
     }
     if (enable_pf_data && !pTracks && !globeIndex) {
-        jQuery('#pf_info_contianer').removeClass('hidden');
+        jQuery('#pf_info_container').removeClass('hidden');
         timers.pf_data = window.setInterval(fetchPfData, RefreshInterval*10.314);
         fetchPfData();
     }
@@ -2039,7 +2026,7 @@ function webglAddLayer() {
         webglLayer = new ol.layer.WebGLPoints({
             name: 'webglLayer',
             type: 'overlay',
-            title: '飞机图形',
+            title: '航班位置 webGL',
             source: webglFeatures,
             declutter: false,
             zIndex: 200,
@@ -2090,7 +2077,7 @@ function webglInit() {
     }
     new Toggle({
         key: "webgl",
-        display: "WebGL",
+        display: "开启WebGL",
         container: "#settingsRight",
         init: init,
         setState: function(state) {
@@ -2338,7 +2325,7 @@ function initMap() {
     siteCircleLayer = new ol.layer.Vector({
         name: 'siteCircles',
         type: 'overlay',
-        title: 'Range rings',
+        title: '距离圈',
         source: siteCircleFeatures,
         visible: SiteCircles,
         zIndex: 100,
@@ -2356,7 +2343,7 @@ function initMap() {
     locationDotLayer = new ol.layer.Vector({
         name: 'locationDot',
         type: 'overlay',
-        title: (receiverJson && receiverJson.lat != null) ? '网站位置' : '你的位置',
+        title: (receiverJson && receiverJson.lat != null) ? '站点位置' : '你的位置',
         source: locationDotFeatures,
         visible: SiteShow,
         zIndex: 100,
@@ -2385,7 +2372,7 @@ function initMap() {
         actualOutlineLayer = new ol.layer.Vector({
             name: 'actualRangeOutline',
             type: 'overlay',
-            title: '实际接收范围',
+            title: '信号接收范围图',
             source: actualOutlineFeatures,
             zIndex: 101,
             renderBuffer: renderBuffer,
@@ -2398,7 +2385,7 @@ function initMap() {
         calcOutlineLayer = new ol.layer.Vector({
             name: 'calcOutline',
             type: 'overlay',
-            title: '基于地形的范围轮廓',
+            title: '基于地形的轮廓范围',
             source: calcOutlineFeatures,
             zIndex: 100,
             renderOrder: null,
@@ -2418,7 +2405,7 @@ function initMap() {
 
     trailLayers = new ol.layer.Group({
         name: 'ac_trail',
-        title: '飞机航迹',
+        title: '航班航迹',
         type: 'overlay',
         layers: trailGroup,
         zIndex: 150,
@@ -2429,7 +2416,7 @@ function initMap() {
     iconLayer = new ol.layer.Vector({
         name: 'iconLayer',
         type: 'overlay',
-        title: '飞机位置',
+        title: '航班位置',
         source: PlaneIconFeatures,
         declutter: false,
         zIndex: 200,
@@ -2538,7 +2525,7 @@ function initMap() {
 
     new Toggle({
         key: "MapDim",
-        display: "模糊地图",
+        display: "地图虚化",
         container: "#settingsLeft",
         init: MapDim,
         setState: function(state) {
@@ -3287,6 +3274,7 @@ function refreshSelected() {
             jQuery('#selected_nic_baro').updateText("交叉检查");
         } else {
             jQuery('#selected_nic_baro').updateText("没有交叉检查");
+            jQuery('#selected_nic_baro').updateText("未交叉检查");
         }
     }
 
@@ -3378,14 +3366,22 @@ function refreshHighlighted() {
         return;
 
     let mapSize = OLMap.getSize();
-    if (markerPosition[0] + 200 < mapSize[0])
-        infoBox.css("left", markerPosition[0] + 20);
+    let infoBoxLeft = markerPosition[0];
+    let infoBoxTop = markerPosition[1];
+    if ((infoBoxLeft + 20 + infoBox.width()) < mapSize[0])
+        infoBoxLeft += 20;
+    else if ((infoBoxLeft - 20 - infoBox.width()) > 0)
+        infoBoxLeft -= (20 + infoBox.width());
     else
-        infoBox.css("left", markerPosition[0] - 200);
-    if (markerPosition[1] + 250 < mapSize[1])
-        infoBox.css("top", markerPosition[1] + 50);
+        infoBoxLeft = 0;
+    if ((infoBoxTop + 20 + infoBox.height()) < mapSize[1])
+        infoBoxTop += 20;
+    else if (infoBoxTop - (20 + infoBox.height()) > 0)
+        infoBoxTop -= (20 + infoBox.height());
     else
-        infoBox.css("top", markerPosition[1] - 250);
+        infoBoxTop = 0;
+    infoBox.css("left", infoBoxLeft);
+    infoBox.css("top", infoBoxTop);
 
     jQuery('#highlighted_callsign').text(highlighted.name);
 
@@ -3498,6 +3494,7 @@ function refreshFeatures() {
     };
     cols.flag = {
         text: '旗帜',
+        header: function() { return "旗帜"; },
         sort: function () { sortBy('country', compareAlpha, function(x) { return x.country; }); },
         value: function(plane) { return (plane.flag_image ? ('<img width="20" height="12" style="display: block;margin: auto;" src="' + FlagPath + plane.flag_image + '" title="' + plane.country + '"></img>') : ''); },
         hStyle: 'style="width: 20px; padding: 3px;"',
@@ -3527,7 +3524,7 @@ function refreshFeatures() {
         value: function(plane) { return (plane.squawk != null ? plane.squawk : ""); },
         align: 'right' };
     cols.altitude = {
-        text: '高度表',
+        text: '高度',
         sort: function () { sortBy('altitude',compareNumeric, function(x) { return (x.altitude == "ground" ? -100000 : x.altitude); }); },
         value: function(plane) { return format_altitude_brief(plane.altitude, plane.vert_rate, DisplayUnits); },
         align: 'right',
@@ -3541,11 +3538,11 @@ function refreshFeatures() {
         header: function () { return (pTracks ? 'Max. ' : '') + '速度' + NBSP + '(' + get_unit_label("speed", DisplayUnits) + ')';},
     };
     cols.vert_rate = {
-        text: '垂直速率',
+        text: '垂直速度',
         sort: function () { sortBy('vert_rate', compareNumeric, function(x) { return x.vert_rate; }); },
         value: function(plane) { return format_vert_rate_brief(plane.vert_rate, DisplayUnits); },
         align: 'right',
-        header: function () { return '垂直速率(' + get_unit_label("verticalRate", DisplayUnits) + ')';},
+        header: function () { return '垂直速度(' + get_unit_label("verticalRate", DisplayUnits) + ')';},
     };
     cols.distance = {
         text: pTracks ? '最大距离' : '距离',
@@ -3555,7 +3552,7 @@ function refreshFeatures() {
         header: function () { return (pTracks ? 'Max. ' : '') + '距离' + NBSP + '(' + get_unit_label("distance", DisplayUnits) + ')';},
     };
     cols.track = {
-        text: '轨迹',
+        text: '航向',
         sort: function () { sortBy('track', compareNumeric, function(x) { return x.track; }); },
         value: function(plane) { return format_track_brief(plane.track); },
         align: 'right' };
@@ -3565,7 +3562,7 @@ function refreshFeatures() {
         value: function(plane) { return plane.messages; },
         align: 'right' };
     cols.seen = {
-        text: '查看次数',
+        text: 'Seen',
         sort: function () { sortBy('seen', compareNumeric, function(x) { return x.seen; }); },
         value: function(plane) { return plane.seen.toFixed(0); },
         align: 'right' };
@@ -3596,7 +3593,7 @@ function refreshFeatures() {
         align: 'right' };
     cols.wd = {
         text: '风向',
-        sort: function () { sortBy('wd', compareNumeric, function(x) { return plane.wd; }); },
+        sort: function () { sortBy('wd', compareNumeric, function(x) { return x.wd; }); },
         value: function(plane) { return plane.wd != null ? (plane.wd + '°') : ''; },
         align: 'right' };
     cols.ws = {
@@ -3604,7 +3601,7 @@ function refreshFeatures() {
         sort: function () { sortBy('ws', compareNumeric, function(x) { return x.ws; }); },
         value: function(plane) { return format_speed_brief(plane.ws, DisplayUnits); },
         align: 'right',
-        header: function () { return '风' + NBSP + '(' + get_unit_label("speed", DisplayUnits) + ')'; },
+        header: function () { return '风速' + NBSP + '(' + get_unit_label("speed", DisplayUnits) + ')'; },
     };
 
     const colsEntries = Object.entries(cols);
@@ -4595,7 +4592,7 @@ function toggleTableInView(arg) {
         loStore['tableInView'] = tableInView;
     }
 
-    jQuery('#with_positions').text(tableInView ? "在屏幕上:" : "有地址的:");
+    jQuery('#with_positions').text(tableInView ? "在屏幕上:" : "有位置的:");
 
     buttonActive('#V', tableInView);
 }
@@ -4892,7 +4889,7 @@ Filter.prototype.init = function() {
     const row = this.tbody.insertRow();
     row.innerHTML =
         `<td><form id="${this.id}">`
-        + '<div class="infoBlockTitleText">按照'+ this.name +'搜索:</div>'
+        + '<div class="infoBlockTitleText">按照 '+ this.name +' 搜索:</div>'
         + `<input id="${this.id}_input" name="${this.id}_name" type="text" class="searchInput" maxlength="1024">`
         + '<button class="formButton" type="submit">搜索</button>'
         + `<button class="formButton" id="${this.id}_reset">重置</button>`
@@ -4934,7 +4931,7 @@ function initFilters() {
     new Filter({
         key: 'icao',
         field: 'icao',
-        name: 'ICAO十六进制 ID',
+        name: 'ICAO 十六进制 ID',
         table: "filterTable",
     });
 
@@ -6319,6 +6316,7 @@ function watchPosition() {
         timeout: Infinity,
         maximumAge: 25 * 1000,
     };
+    console.log("watching position");
     watchPositionId = navigator.geolocation.watchPosition(function(position) {
         onLocationChange(position);
         pollPositionSeconds = 60;
@@ -6358,6 +6356,7 @@ function geoFindMe() {
                     timeout: 15 * 60 * 1000,
                     maximumAge: 5 * 60 * 1000 ,
                 };
+                console.log('geoFindInterval: querying position');
                 navigator.geolocation.getCurrentPosition(onLocationChange, logArg, geoposOptions);
             }, 15 * 60 * 1000);
         }
@@ -7537,7 +7536,9 @@ function drawTileBorder(data) {
 }
 
 function updateMessageRate(data) {
-    if (data.messages && data.messages > 1) {
+    if (data.messageRate && data.messageRate > 0) {
+        MessageRate = data.messageRate;
+    } else if (data.messages && data.messages > 1) {
         // Detect stats reset
         if (MessageCountHistory.length > 0 && MessageCountHistory[MessageCountHistory.length-1].messages > data.messages) {
             MessageCountHistory = [];
@@ -8323,6 +8324,28 @@ Please add a disclaimer to any screenshots of this website or better yet just re
 function getn(n) {
     limitUpdates=n; RefreshInterval=0; fetchCalls=0;
 }
+
+function globeRateUpdate() {
+    if (adsbexchange) {
+        dynGlobeRate = true;
+        const cookieExp = getCookie('adsbx_sid').split('_')[0];
+        const ts = new Date().getTime();
+        if (!cookieExp || cookieExp < ts + 3600*1000)
+            setCookie('adsbx_sid', ((ts + 2*86400*1000) + '_' + Math.random().toString(36).substring(2, 15)), 2);
+    }
+    if (dynGlobeRate) {
+        return jQuery.ajax({url:'/globeRates.json', cache: false, dataType: 'json', }).done(function(data) {
+            if (data.simload != null)
+                globeSimLoad = data.simload;
+            if (data.refresh != null && globeIndex)
+                RefreshInterval = data.refresh;
+        });
+    } else {
+        return jQuery.Deferred().resolve();
+    }
+}
+globeRateUpdate();
+
 
 
 parseURLIcaos();
