@@ -3273,7 +3273,6 @@ function refreshSelected() {
         if (selected.nic_baro == 1) {
             jQuery('#selected_nic_baro').updateText("交叉检查");
         } else {
-            jQuery('#selected_nic_baro').updateText("没有交叉检查");
             jQuery('#selected_nic_baro').updateText("未交叉检查");
         }
     }
